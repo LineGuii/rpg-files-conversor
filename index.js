@@ -1,7 +1,9 @@
-import ffmpeg from "fluent-ffmpeg";
-import path from 'path';
-import fs from 'fs';
-import { allAudioFiles, allImagesFiles } from "./utils";
+#!/usr/bin/env node
+
+const ffmpeg = require("fluent-ffmpeg");
+const path = require('path');
+const fs = require('fs');
+const {allAudioFiles, allImagesFiles} = require("./utils")
 const argv = require('minimist')(process.argv.slice(2));
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 ffmpeg.setFfmpegPath(ffmpegPath);
@@ -9,7 +11,7 @@ const webp=require('webp-converter');
 webp.grant_permission();
 
 
-function convertAllFromDir(dir: string) {
+function convertAllFromDir(dir) {
     const directoryPath = path.join(dir)
     fs.readdir(directoryPath, (err, files) => {
         if (err) {
@@ -26,7 +28,7 @@ function convertAllFromDir(dir: string) {
     })
 }
 
-function convertFileToOGG(dir: string, files: string[]) {
+function convertFileToOGG(dir, files) {
     console.log("\n----OGG preparation START---")
     files.forEach((f, i) => {
         const fileName = f
@@ -47,10 +49,10 @@ function convertFileToOGG(dir: string, files: string[]) {
     console.log("----OGG preparation END---")
 }
 
-function convertFileToWEBP(dir: string, files: string[]) {
+function convertFileToWEBP(dir, files) {
     console.log("\n----WEBP preparation START---")
 
-    files.forEach((f: string, i: number) => {
+    files.forEach((f, i) => {
         const fileName = f
         const filePath = path.join(dir, fileName)
         const outputName = path.join(dir, fileName.split('.')[0] + '.webp')
@@ -68,7 +70,7 @@ function convertFileToWEBP(dir: string, files: string[]) {
 if (argv.f == null) {
     console.log("No argument found, please provide -f argument")
 } else {
-    const folder: string = argv.f
+    const folder = argv.f
     if (folder.includes(':/') || folder.includes(':\\') || folder.startsWith('./') || folder.startsWith('.\\') || folder.startsWith('../') || folder.startsWith('.\\')) {
         convertAllFromDir(path.join(folder));
     } else {
