@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-import('./index.ts')
+require('./index.ts')
